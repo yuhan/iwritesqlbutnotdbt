@@ -1,0 +1,37 @@
+[project]
+name = "iwritesqlbutnotdbt"
+requires-python = ">=3.9,<3.13"
+version = "0.1.0"
+dependencies = [
+    "dagster-components[sling]",
+    "sqlalchemy",
+    "pandas",
+    "duckdb-engine",
+]
+
+[project.entry-points]
+"dagster.components" = { iwritesqlbutnotdbt = "iwritesqlbutnotdbt.lib"}
+
+[dependency-groups]
+dev = [
+    "dagster-webserver",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.dagster]
+module_name = "iwritesqlbutnotdbt.definitions"
+code_location_name = "iwritesqlbutnotdbt"
+
+[tool.dg]
+directory_type = "project"
+
+[tool.dg.project]
+root_module = "iwritesqlbutnotdbt"
+
+[tool.setuptools.packages.find]
+exclude=["iwritesqlbutnotdbt_tests"]
+
+
