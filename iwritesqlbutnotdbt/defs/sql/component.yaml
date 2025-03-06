@@ -14,7 +14,7 @@ attributes:
 
     # next step: takes a list of specs, instead of a single spec
     # - sql_path: "./pypi_package_downloads.sql"
-    #   sql_engine_url: "duckdb:////tmp/jaffle_platform.duckdb"
+    #   sql_engine_url: "bigquery://my-project/my-dataset"
     #   asset_specs:
     #     - key: pypi_package_downloads
     #       kinds:
