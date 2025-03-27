@@ -3,7 +3,7 @@ name = "iwritesqlbutnotdbt"
 requires-python = ">=3.9,<3.13"
 version = "0.1.0"
 dependencies = [
-    "dagster-components[sling]",
+    "dagster-components[sling]==0.26.6.post0",
     "sqlalchemy",
     "pandas",
     "duckdb-engine",
@@ -15,6 +15,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "dagster-webserver",
+    "ruff>=0.11.2",
 ]
 
 [build-system]
