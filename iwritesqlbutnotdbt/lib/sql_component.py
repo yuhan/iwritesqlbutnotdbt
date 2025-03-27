@@ -5,40 +5,42 @@ from pathlib import Path
 import dagster as dg
 import pandas as pd
 from dagster_components import (
-    AssetSpecSchema,
+    AssetSpecModel,
     Component,
     ComponentLoadContext,
     ResolutionContext,
-    ResolvableSchema,
+    ResolvableModel,
+    ResolvedFrom,
 )
 from sqlalchemy import create_engine
 
 
-class SqlComponentSchema(ResolvableSchema):
+from dagster_components.resolved.core_models import ResolvedAssetSpec
+
+
+
+class SqlComponentModel(ResolvableModel):
     sql_path: str
     sql_engine_url: str
-    asset_specs: Sequence[AssetSpecSchema]
+    asset_specs: Sequence[AssetSpecModel]
 
 
 def resolve_asset_specs(
-    context: ResolutionContext, schema: SqlComponentSchema
+    context: ResolutionContext, schema: SqlComponentModel
 ) -> Sequence[dg.AssetSpec]:
     return context.resolve_value(schema.asset_specs)
 
 
 @dataclass
-class SqlComponent(Component):
+class SqlComponent(Component, ResolvedFrom[SqlComponentModel]):
     """
     A component that allows you to write SQL without learning dbt or Dagster's concepts.
     """
 
     sql_path: str
     sql_engine_url: str
-    asset_specs: Sequence[dg.AssetSpec]  # i don't like this
+    asset_specs: Sequence[ResolvedAssetSpec]
 
-    @classmethod
-    def get_schema(cls):
-        return SqlComponentSchema
 
     def build_defs(self, load_context: ComponentLoadContext) -> dg.Definitions:
         resolved_sql_path = Path(load_context.path, self.sql_path).absolute()
